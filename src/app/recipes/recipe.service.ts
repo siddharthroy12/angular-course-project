@@ -8,22 +8,17 @@ import {Subject} from 'rxjs';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes:Recipe[] = [
-    new Recipe(
-      'A Test Recipe',
-      "This is a simple desc",
-      "https://www.thespruceeats.com/thmb/yK8psUDvXdEKOvzFtLtx-n4ETuQ=/940x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/vegan-tofu-tikka-masala-recipe-3378484-hero-01-d676687a7b0a4640a55be669cba73095.jpg",
-      [
-        new Ingredient("Meat", 1),
-        new Ingredient("French Fries", 20)
-      ]
-    )
-  ];
+  private recipes:Recipe[] = [];
 
   constructor(private slService: ShoppingListService) {}
 
   getRecipes() {
     return [ ...this.recipes ];
+  }
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
   }
 
   getRecipe(id: number) {
